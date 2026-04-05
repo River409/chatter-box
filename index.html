@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chatterbox (Habla con desconocidos!)</title>
+  <title>Chatterbox (¡habla con extraños!)</title>
   <style>
     /* ---------------- Body / Windows XP style ---------------- */
     body {
@@ -104,9 +104,9 @@
     }
 
     /* ---------------- Input & Buttons ---------------- */
-    input#msg {
+    input#username, input#msg {
       padding: 6px;
-      width: 50%;
+      width: 200px;
       border: 2px inset #fff;
       margin-top: 10px;
     }
@@ -142,16 +142,16 @@
 </div>
 
 <div id="loginScreen">
-  <h2>Enter Montessori Email</h2>
-  <input id="emailInput" placeholder="@montesssori-academico.es" />
-  <button onclick="enterChat()">Join Chat</button>
+  <h2>Introduce un nombre de usuario</h2>
+  <input id="username" placeholder="Your Name" />
+  <button onclick="enterChat()">Unirse a un chat</button>
 </div>
 
 <div id="chatUI">
-  <button onclick="nextUser()">Next User</button>
+  <button onclick="nextUser()">Siguiente</button>
   <div id="chat"></div>
   <input id="msg" placeholder="Type message..." />
-  <button onclick="send()">Send</button>
+  <button onclick="send()">Enviar mensaje</button>
 </div>
 
 <script type="module">
@@ -173,20 +173,16 @@
   const db = getDatabase(app);
 
   let username = null;
-  let userId = "user_" + Math.random().toString(36).substring(2,9);
+  const userId = "user_" + Math.random().toString(36).substring(2,9);
   let currentRoom = null;
 
   const waitingRef = ref(db, "waiting");
   const roomsRef = ref(db, "rooms");
 
   function enterChat() {
-    const email = document.getElementById("emailInput").value.trim();
-    if (!email) { alert("Enter your email!"); return; }
-    const allowedDomain = "school.edu"; // Replace with your school domain
-    const domain = email.split("@")[1];
-    if (domain !== allowedDomain) { alert("Only school emails allowed!"); return; }
-
-    username = email.split("@")[0];
+    const name = document.getElementById("username").value.trim();
+    if (!name) { alert("Enter a username!"); return; }
+    username = name;
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("chatUI").style.display = "block";
     startChat();
