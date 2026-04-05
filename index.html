@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatterbox (Habla con randoms!)</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f0f0f;
+      color: white;
+      text-align: center;
+    }
+
+    #chat {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #333;
+      margin: 10px auto;
+      width: 80%;
+      padding: 10px;
+      background: #1a1a1a;
+    }
+
+    input {
+      padding: 10px;
+      width: 60%;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+      border: none;
+      background: #4CAF50;
+      color: white;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Chatterbox 💬</h1>
+
+<button onclick="startChat()">Start Chat</button>
+<button onclick="nextUser()">Next</button>
+
+<div id="chat"></div>
+
+<input id="msg" placeholder="Type message..." />
+<button onclick="send()">Send</button>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    remove,
+    push,
+    onChildAdded
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  // 🔴 REPLACE THIS WITH YOUR FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "AIzaSyAjL7xTLgVNsmpP2cKwDHWoR_LKH4M90F8",
+    authDomain: "chatterbox-cc42e.firebaseapp.com",
+    databaseURL: "https://chatterbox-cc42e-default-rtdb.europe-west1.firebasedatabase.app/",
+    projectId: "chatterbox-cc42e",
+    storageBucket: "chatterbox-cc42e.firebasestorage.app",
+    messagingSenderId: "660510708256",
+    appId: "1:660510708256:web:1d01e5ddd35a15a9a0a245"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // 🧠 Unique user ID
+  const userId = "user_" + Math.random().toString(36).substring(2, 9);
+
+  let currentRoom = null;
+
+  const waitingRef = ref(db, "waiting");
+  const roomsRef = ref(db, "rooms");
+
+  // 🔍 Find partner
+  async function findPartner() {
+    const snapshot = await get(waitingRef);
+
+    if (snapshot.exists()) {
+      const users = Object.keys(snapshot.val());
+
+      for (let partnerId of users) {
+        if (partnerId !== userId) {
+          const roomId = userId + "_" + partnerId;
+
+          await set(ref(db, "rooms/" + roomId), {
+            users: [userId, partnerId]
+          });
+
+          await remove(ref(db, "waiting/" + partnerId));
+
+          return roomId;
+        }
+      }
+    }
+
+    await set(ref(db, "waiting/" + userId), true);
+    return null;
+  }
+
+  // ▶ Start chat
+  window.startChat = async function () {
+    document.getElementById("chat").innerHTML = "<p>⏳ Looking for partner...</p>";
+
+    const room = await findPartner();
+
+    if (room) {
+      joinRoom(room);
+    } else {
+      listenForMatch();
+    }
+  };
+
+  // 👂 Listen for match
+  function listenForMatch() {
+    onChildAdded(roomsRef, (data) => {
+      const room = data.key;
+      const users = data.val().users;
+
+      if (users.includes(userId)) {
+        joinRoom(room);
+      }
+    });
+  }
+
+  // 💬 Join room
+  function joinRoom(roomId) {
+    currentRoom = roomId;
+
+    const chatRef = ref(db, "messages/" + roomId);
+
+    const chatDiv = document.getElementById("chat");
+    chatDiv.innerHTML = "<p>✅ Connected! Say hi 👋</p>";
+
+    onChildAdded(chatRef, (data) => {
+      chatDiv.innerHTML += "<p>" + data.val().text + "</p>";
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    });
+
+    window.send = function () {
+      const input = document.getElementById("msg");
+
+      if (!input.value.trim()) return;
+
+      push(chatRef, {
+        text: input.value
+      });
+
+      input.value = "";
+    };
+  }
+
+  // 🔄 Next user
+  window.nextUser = async function () {
+    if (currentRoom) {
+      await remove(ref(db, "messages/" + currentRoom));
+      currentRoom = null;
+    }
+
+    startChat();
+  };
+
+</script>
+
+</body>
+</html>
