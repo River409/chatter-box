@@ -1,164 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chatterbox (¡habla con extraños!)</title>
+  <title>Chatterbox (Habla con randoms!)</title>
   <style>
-    /* ---------------- Body / Windows XP style ---------------- */
-    body {
-      font-family: "Tahoma", sans-serif;
-      background: #008080; /* XP teal background */
-      color: #000;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: "Tahoma", "Verdana", sans-serif;
+  background: linear-gradient(to bottom, #3b5998, #8b9dc3);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #222;
+}
 
-    /* ---------------- Header / Logo ---------------- */
-    #headerLogo {
-      background: linear-gradient(to bottom, #cce7ff, #99ccff);
-      padding: 10px;
-      border-bottom: 2px solid #3b6ea5;
-      box-shadow: inset 0 0 3px rgba(255,255,255,0.7);
-    }
+/* Header */
+h1 {
+  background: linear-gradient(to bottom, #6d84b4, #3b5998);
+  color: white;
+  padding: 15px;
+  margin: 0;
+  border-bottom: 2px solid #2d4373;
+  text-shadow: 1px 1px 2px #000;
+  font-size: 28px;
+}
 
-    #headerLogo img#logo {
-      height: 50px;
-      vertical-align: middle;
-    }
+/* Chat box */
+#chat {
+  height: 320px;
+  width: 70%;
+  margin: 20px auto;
+  padding: 10px;
+  overflow-y: auto;
 
-    /* ---------------- Login Screen ---------------- */
-    #loginScreen {
-      margin-top: 50px;
-    }
+  background: #f0f0f0;
+  border: 2px solid #999;
+  border-radius: 8px;
 
-    #loginScreen input {
-      padding: 6px;
-      width: 200px;
-      border: 2px inset #fff;
-      background: #e0e0e0;
-      font-size: 14px;
-    }
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+  text-align: left;
+  font-size: 14px;
+}
 
-    #loginScreen button {
-      padding: 6px 12px;
-      border: 2px outset #fff;
-      background: #cce7ff;
-      cursor: pointer;
-      font-weight: bold;
-      margin-left: 5px;
-    }
+/* Messages */
+#chat p {
+  background: #ffffff;
+  padding: 6px 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
 
-    #loginScreen button:hover {
-      background: #99ccff;
-    }
+/* Input */
+input {
+  width: 50%;
+  padding: 10px;
 
-    /* ---------------- Chat Window ---------------- */
-    #chatUI {
-      display: none;
-      margin-top: 20px;
-    }
+  border: 2px solid #999;
+  border-radius: 6px;
 
-    #chat {
-      height: 300px;
-      overflow-y: auto;
-      border: 2px solid #3b6ea5;
-      margin: 10px auto;
-      width: 70%;
-      padding: 10px;
-      background: #e0f0ff;
-      border-radius: 4px;
-    }
+  background: #fff;
+  font-size: 14px;
 
-    /* ---------------- Messages / Bubbles ---------------- */
-    .message {
-      display: flex;
-      align-items: center;
-      margin: 8px 0;
-    }
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
 
-    .message .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 8px;
-      background-size: cover;
-      background-position: center;
-      border: 2px solid #3b6ea5;
-    }
+/* Buttons */
+button {
+  padding: 10px 15px;
+  margin: 5px;
 
-    .message.me .bubble {
-      background: #b3f0b3;
-      border: 1px solid #3b6ea5;
-      padding: 5px 8px;
-      border-radius: 4px;
-      margin-left: auto;
-      max-width: 70%;
-    }
+  font-size: 14px;
+  font-weight: bold;
 
-    .message.other .bubble {
-      background: #fff48c;
-      border: 1px solid #3b6ea5;
-      padding: 5px 8px;
-      border-radius: 4px;
-      max-width: 70%;
-    }
+  color: white;
+  border: 1px solid #2d4373;
+  border-radius: 6px;
 
-    /* ---------------- Input & Buttons ---------------- */
-    input#username, input#msg {
-      padding: 6px;
-      width: 200px;
-      border: 2px inset #fff;
-      margin-top: 10px;
-    }
+  cursor: pointer;
 
-    button {
-      padding: 6px 12px;
-      border: 2px outset #fff;
-      background: #cce7ff;
-      cursor: pointer;
-      font-weight: bold;
-      margin-left: 5px;
-    }
+  background: linear-gradient(to bottom, #6d84b4, #3b5998);
+  box-shadow: 0 2px 0 #2d4373;
+}
 
-    button:hover {
-      background: #99ccff;
-    }
+/* Button hover */
+button:hover {
+  background: linear-gradient(to bottom, #8b9dc3, #4c66a4);
+}
 
-    /* Scrollbar (XP style) */
-    #chat::-webkit-scrollbar {
-      width: 10px;
-    }
-    #chat::-webkit-scrollbar-thumb {
-      background: #99ccff;
-      border: 1px solid #3b6ea5;
-      border-radius: 4px;
-    }
+/* Button click (pressed effect) */
+button:active {
+  box-shadow: 0 1px 0 #2d4373;
+  transform: translateY(1px);
+}
+
+/* Scrollbar (retro-ish, WebKit only) */
+#chat::-webkit-scrollbar {
+  width: 10px;
+}
+
+#chat::-webkit-scrollbar-track {
+  background: #dfe3ee;
+}
+
+#chat::-webkit-scrollbar-thumb {
+  background: #6d84b4;
+  border-radius: 5px;
+}
   </style>
 </head>
 <body>
 
-<div id="headerLogo">
-  <img id="logo" src="https://preview.redd.it/msn-avatars-of-all-colors-v0-h70w8hxd5uha1.png?width=1024&format=png&auto=webp&s=ea9360b378a5f63881fc093f5c9097a60eadc47e" alt="Logo">
-</div>
+<h1>Chatterbox 💬</h1>
 
-<div id="loginScreen">
-  <h2>Introduce un nombre de usuario</h2>
-  <input id="username" placeholder="Your Name" />
-  <button onclick="enterChat()">Unirse a un chat</button>
-</div>
+<button onclick="startChat()">Iniciar chat</button>
+<button onclick="nextUser()">Siguiente</button>
 
-<div id="chatUI">
-  <button onclick="nextUser()">Siguiente</button>
-  <div id="chat"></div>
-  <input id="msg" placeholder="Type message..." />
-  <button onclick="send()">Enviar mensaje</button>
-</div>
+<div id="chat"></div>
+
+<input id="msg" placeholder="Type message..." />
+<button onclick="send()">Enviar</button>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getDatabase, ref, set, get, remove, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+  import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    remove,
+    push,
+    onChildAdded
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  // 🔴 Replace with your Firebase config
+  // 🔴 REPLACE THIS WITH YOUR FIREBASE CONFIG
   const firebaseConfig = {
     apiKey: "AIzaSyAjL7xTLgVNsmpP2cKwDHWoR_LKH4M90F8",
     authDomain: "chatterbox-cc42e.firebaseapp.com",
@@ -172,87 +145,102 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  let username = null;
-  const userId = "user_" + Math.random().toString(36).substring(2,9);
+  // 🧠 Unique user ID
+  const userId = "user_" + Math.random().toString(36).substring(2, 9);
+
   let currentRoom = null;
 
   const waitingRef = ref(db, "waiting");
   const roomsRef = ref(db, "rooms");
 
-  function enterChat() {
-    const name = document.getElementById("username").value.trim();
-    if (!name) { alert("Enter a username!"); return; }
-    username = name;
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("chatUI").style.display = "block";
-    startChat();
-  }
-
+  // 🔍 Find partner
   async function findPartner() {
     const snapshot = await get(waitingRef);
+
     if (snapshot.exists()) {
       const users = Object.keys(snapshot.val());
+
       for (let partnerId of users) {
         if (partnerId !== userId) {
           const roomId = userId + "_" + partnerId;
-          await set(ref(db, "rooms/" + roomId), { users: [userId, partnerId] });
+
+          await set(ref(db, "rooms/" + roomId), {
+            users: [userId, partnerId]
+          });
+
           await remove(ref(db, "waiting/" + partnerId));
+
           return roomId;
         }
       }
     }
+
     await set(ref(db, "waiting/" + userId), true);
     return null;
   }
 
-  window.startChat = async function() {
-    const chatDiv = document.getElementById("chat");
-    chatDiv.innerHTML = "<p>⏳ Looking for partner...</p>";
-    const room = await findPartner();
-    if (room) joinRoom(room); else listenForMatch();
-  }
+  // ▶ Start chat
+  window.startChat = async function () {
+    document.getElementById("chat").innerHTML = "<p>Conectando a servidor</p>";
 
+    const room = await findPartner();
+
+    if (room) {
+      joinRoom(room);
+    } else {
+      listenForMatch();
+    }
+  };
+
+  // 👂 Listen for match
   function listenForMatch() {
     onChildAdded(roomsRef, (data) => {
       const room = data.key;
       const users = data.val().users;
-      if (users.includes(userId)) joinRoom(room);
+
+      if (users.includes(userId)) {
+        joinRoom(room);
+      }
     });
   }
 
+  // 💬 Join room
   function joinRoom(roomId) {
     currentRoom = roomId;
+
     const chatRef = ref(db, "messages/" + roomId);
+
     const chatDiv = document.getElementById("chat");
-    chatDiv.innerHTML = "<p>✅ Connected! Say hi 👋</p>";
+    chatDiv.innerHTML = "<p>Conectado! Di algo...</p>";
 
     onChildAdded(chatRef, (data) => {
-      const msg = data.val();
-      const isMe = msg.userId === userId;
-      const msgHtml = `
-        <div class="message ${isMe ? "me" : "other"}">
-          <div class="avatar" style="background-image:url(${isMe ? "green.png" : "yellow.png"});"></div>
-          <div class="bubble"><b>${msg.username}:</b><br>${msg.text}</div>
-        </div>`;
-      chatDiv.innerHTML += msgHtml;
+      chatDiv.innerHTML += "<p>" + data.val().text + "</p>";
       chatDiv.scrollTop = chatDiv.scrollHeight;
     });
 
-    window.send = function() {
+    window.send = function () {
       const input = document.getElementById("msg");
+
       if (!input.value.trim()) return;
-      push(chatRef, { userId, username, text: input.value });
+
+      push(chatRef, {
+        text: input.value
+      });
+
       input.value = "";
     };
   }
 
-  window.nextUser = async function() {
+  // 🔄 Next user
+  window.nextUser = async function () {
     if (currentRoom) {
       await remove(ref(db, "messages/" + currentRoom));
       currentRoom = null;
     }
+
     startChat();
   };
+
 </script>
 
 </body>
