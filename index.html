@@ -3,47 +3,109 @@
 <head>
   <title>Chatterbox (Habla con randoms!)</title>
   <style>
-    body {
-      font-family: Arial;
-      background: #0f0f0f;
-      color: white;
-      text-align: center;
-    }
+ body {
+  font-family: "Tahoma", "Verdana", sans-serif;
+  background: linear-gradient(to bottom, #3b5998, #8b9dc3);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #222;
+}
 
-    #chat {
-      height: 300px;
-      overflow-y: auto;
-      border: 1px solid #333;
-      margin: 10px auto;
-      width: 80%;
-      padding: 10px;
-      background: #1a1a1a;
-    }
+/* Header */
+h1 {
+  background: linear-gradient(to bottom, #6d84b4, #3b5998);
+  color: white;
+  padding: 15px;
+  margin: 0;
+  border-bottom: 2px solid #2d4373;
+  text-shadow: 1px 1px 2px #000;
+  font-size: 28px;
+}
 
-    input {
-      padding: 10px;
-      width: 60%;
-      border: none;
-      outline: none;
-    }
+/* Chat box */
+#chat {
+  height: 320px;
+  width: 70%;
+  margin: 20px auto;
+  padding: 10px;
+  overflow-y: auto;
 
-    button {
-      padding: 10px;
-      margin: 5px;
-      cursor: pointer;
-      border: none;
-      background: #4CAF50;
-      color: white;
-    }
+  background: #f0f0f0;
+  border: 2px solid #999;
+  border-radius: 8px;
 
-    button:hover {
-      background: #45a049;
-    }
-  </style>
-</head>
-<body>
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+  text-align: left;
+  font-size: 14px;
+}
 
-<h1>Chatterbox 💬</h1>
+/* Messages */
+#chat p {
+  background: #ffffff;
+  padding: 6px 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Input */
+input {
+  width: 50%;
+  padding: 10px;
+
+  border: 2px solid #999;
+  border-radius: 6px;
+
+  background: #fff;
+  font-size: 14px;
+
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  margin: 5px;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  color: white;
+  border: 1px solid #2d4373;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  background: linear-gradient(to bottom, #6d84b4, #3b5998);
+  box-shadow: 0 2px 0 #2d4373;
+}
+
+/* Button hover */
+button:hover {
+  background: linear-gradient(to bottom, #8b9dc3, #4c66a4);
+}
+
+/* Button click (pressed effect) */
+button:active {
+  box-shadow: 0 1px 0 #2d4373;
+  transform: translateY(1px);
+}
+
+/* Scrollbar (retro-ish, WebKit only) */
+#chat::-webkit-scrollbar {
+  width: 10px;
+}
+
+#chat::-webkit-scrollbar-track {
+  background: #dfe3ee;
+}
+
+#chat::-webkit-scrollbar-thumb {
+  background: #6d84b4;
+  border-radius: 5px;
+}
+<h1>Chatterbox</h1>
 
 <button onclick="startChat()">Start Chat</button>
 <button onclick="nextUser()">Next</button>
