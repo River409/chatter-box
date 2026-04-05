@@ -2,33 +2,33 @@
 <html>
 <head>
   <title>Chatterbox (Habla con randoms!)</title>
-  <style>
-    <p style="font-family: Tahoma, sans-serif;">
-  This text uses Arial font.
-</p>
-  </style>
 </head>
 <body>
+  <p style="font-family: Tahoma, sans-serif;">
+    Your text here
+  </p>
+</body>
+</html>
 
 <!-- NEW: Username screen -->
 <div id="loginScreen">
-  <h2>Enter a username</h2>
+  <h2>Introduce un nombre de usuario</h2>
   <input id="usernameInput" placeholder="Your username..." />
   <br><br>
-  <button onclick="enterChat()">Join Chat</button>
+  <button onclick="enterChat()">Unirse a un chat</button>
 </div>
 
 <!-- EXISTING UI wrapped -->
 <div id="chatUI" style="display:none;">
     <img src="logo.png" alt="Logo">
 
-  <button onclick="startChat()">Start Chat</button>
-  <button onclick="nextUser()">Next</button>
+  <button onclick="startChat()">Iniciar Chat</button>
+  <button onclick="nextUser()">Siguiente</button>
 
   <div id="chat"></div>
 
-  <input id="msg" placeholder="Type message..." />
-  <button onclick="send()">Send</button>
+  <input id="msg" placeholder="Escribe un mensaje" />
+  <button onclick="send()">Enviar</button>
 </div>
 
 <script type="module">
@@ -69,7 +69,7 @@
     const input = document.getElementById("usernameInput");
 
     if (!input.value.trim()) {
-      alert("Enter a username!");
+      alert("Introduce un nombre!");
       return;
     }
 
@@ -105,7 +105,7 @@
   }
 
   window.startChat = async function () {
-    document.getElementById("chat").innerHTML = "<p>⏳ Looking for partner...</p>";
+    document.getElementById("chat").innerHTML = "<p>Conectando al servidor externo...</p>";
 
     const room = await findPartner();
 
@@ -133,7 +133,7 @@
     const chatRef = ref(db, "messages/" + roomId);
     const chatDiv = document.getElementById("chat");
 
-    chatDiv.innerHTML = "<p>✅ Connected! Say hi 👋</p>";
+    chatDiv.innerHTML = "<p>Conectado di algo...</p>";
 
     onChildAdded(chatRef, (data) => {
       const msg = data.val();
