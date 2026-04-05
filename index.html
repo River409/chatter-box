@@ -3,93 +3,134 @@
 <head>
   <title>Chatterbox (Habla con randoms!)</title>
   <style>
-    body {
-      font-family: Arial;
-      background: #0f0f0f;
-      color: white;
-      text-align: center;
-    }
+ /* ---------------- Body & Fonts ---------------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #1c1c1c, #0f0f0f);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
 
-    #chat {
-      height: 300px;
-      overflow-y: auto;
-      border: 1px solid #333;
-      margin: 10px auto;
-      width: 80%;
-      padding: 10px;
-      background: #1a1a1a;
-    }
+/* ---------------- Header / Logo ---------------- */
+#headerLogo {
+    background: linear-gradient(to bottom, #4e8ef7, #2c5abf);
+    padding: 15px;
+    border-bottom: 2px solid #1a3b7a;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
 
-    input {
-      padding: 10px;
-      width: 60%;
-      border: none;
-      outline: none;
-    }
+#headerLogo img#logo {
+    height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+}
 
-    button {
-      padding: 10px;
-      margin: 5px;
-      cursor: pointer;
-      border: none;
-      background: #4CAF50;
-      color: white;
-    }
+/* ---------------- Chat Window ---------------- */
+#chat {
+    height: 400px;
+    overflow-y: auto;
+    border: 2px solid #333;
+    margin: 20px auto;
+    width: 80%;
+    padding: 10px;
+    background: rgba(30, 30, 30, 0.85); /* semi-transparent */
+    border-radius: 12px;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+}
 
-    button:hover {
-      background: #45a049;
-    }
+/* ---------------- Message bubbles ---------------- */
+.message {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border-radius: 12px;
+    max-width: 70%;
+    font-size: 14px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
 
-    /* NEW: message layout */
-    .message {
-      display: flex;
-      align-items: flex-start;
-      margin: 8px 0;
-    }
+/* User vs Other */
+.message.me {
+    background: linear-gradient(to right, #3cb371, #2e8b57);
+    margin-left: auto;
+    text-align: left;
+}
 
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-      border: 2px solid #333;
-    }
+.message.other {
+    background: linear-gradient(to right, #f0e68c, #ffd700);
+    margin-right: auto;
+    text-align: left;
+}
 
-    .message.me .avatar {
-      background: #4CAF50;
-    }
+/* ---------------- Avatars ---------------- */
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #444;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
 
-    .message.other .avatar {
-      background: #FFD700;
-    }
+/* ---------------- Input & Buttons ---------------- */
+input#msg {
+    padding: 10px;
+    width: 60%;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    box-shadow: inset 0 0 5px rgba(255,255,255,0.1);
+    margin-bottom: 10px;
+}
 
-    .bubble {
-      background: white;
-      color: black;
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      max-width: 70%;
-    }
+button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #4e8ef7, #2c5abf);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    transition: 0.2s;
+}
 
-    .message.me {
-      justify-content: flex-end;
-    }
+button:hover {
+    background: linear-gradient(to bottom, #6fa0ff, #3b6dcf);
+}
 
-    .message.me .bubble {
-      background: #dcf8c6;
-    }
+/* ---------------- Scrollbar (optional fancy Aero) ---------------- */
+#chat::-webkit-scrollbar {
+    width: 10px;
+}
 
-    .message.me .avatar {
-      order: 2;
-      margin-left: 10px;
-      margin-right: 0;
-    }
+#chat::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+#chat::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
+
+#chat::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.4);
+}
   </style>
 </head>
 <body>
 
-<!-- NEW: Username screen -->
+<!-- ===== Username screen ===== -->
 <div id="loginScreen">
   <h2>Enter a username</h2>
   <input id="usernameInput" placeholder="Your username..." />
@@ -97,9 +138,11 @@
   <button onclick="enterChat()">Join Chat</button>
 </div>
 
-<!-- EXISTING UI wrapped -->
+<!-- ===== Main Chat UI ===== -->
 <div id="chatUI" style="display:none;">
-  <h1>Chatterbox 💬</h1>
+<h1 id="headerLogo">
+  <img src="logo.png" alt="Chatterbox Logo" id="logo">
+</h1>
 
   <button onclick="startChat()">Start Chat</button>
   <button onclick="nextUser()">Next</button>
@@ -138,12 +181,12 @@
   const userId = "user_" + Math.random().toString(36).substring(2, 9);
 
   let currentRoom = null;
-  let username = "Anonymous"; // NEW
+  let username = "Anonymous";
 
   const waitingRef = ref(db, "waiting");
   const roomsRef = ref(db, "rooms");
 
-  // NEW: enter chat
+  // ===== Enter chat with username =====
   window.enterChat = function () {
     const input = document.getElementById("usernameInput");
 
@@ -153,7 +196,6 @@
     }
 
     username = input.value;
-
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("chatUI").style.display = "block";
   };
@@ -173,7 +215,6 @@
           });
 
           await remove(ref(db, "waiting/" + partnerId));
-
           return roomId;
         }
       }
@@ -185,9 +226,7 @@
 
   window.startChat = async function () {
     document.getElementById("chat").innerHTML = "<p>⏳ Looking for partner...</p>";
-
     const room = await findPartner();
-
     if (room) {
       joinRoom(room);
     } else {
@@ -199,7 +238,6 @@
     onChildAdded(roomsRef, (data) => {
       const room = data.key;
       const users = data.val().users;
-
       if (users.includes(userId)) {
         joinRoom(room);
       }
@@ -208,7 +246,6 @@
 
   function joinRoom(roomId) {
     currentRoom = roomId;
-
     const chatRef = ref(db, "messages/" + roomId);
     const chatDiv = document.getElementById("chat");
 
@@ -227,19 +264,17 @@
           </div>
         </div>
       `;
-
       chatDiv.scrollTop = chatDiv.scrollHeight;
     });
 
     window.send = function () {
       const input = document.getElementById("msg");
-
       if (!input.value.trim()) return;
 
       push(chatRef, {
         text: input.value,
         sender: userId,
-        username: username // NEW
+        username: username
       });
 
       input.value = "";
@@ -249,12 +284,19 @@
   window.nextUser = async function () {
     if (currentRoom) {
       await remove(ref(db, "messages/" + currentRoom));
+      await remove(ref(db, "rooms/" + currentRoom));
       currentRoom = null;
     }
-
     startChat();
   };
 
+  // ===== Auto-clean on exit =====
+  window.addEventListener("beforeunload", () => {
+    if (currentRoom) {
+      remove(ref(db, "messages/" + currentRoom));
+      remove(ref(db, "rooms/" + currentRoom));
+    }
+  });
 </script>
 
 </body>
